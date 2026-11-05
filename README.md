@@ -16,7 +16,7 @@ Ces champs de `src/data.js` sont marqués `À COMPLÉTER`. Tant qu'ils sont vide
 | `profile.photo` | Remplace les initiales dans le cadre du hero. Déposer l'image dans `public/`. |
 | `profile.links.linkedin`, `profile.links.hackthebox` | Ajoute le lien dans le hero et la section Contact. |
 | `profile.contactEndpoint` | Envoie le formulaire au service choisi au lieu de préparer un e-mail. |
-| `projects[].images` | Ajoute une vignette sur la carte et une galerie sur la page du projet. |
+| `projects[].images` | Ajoute une vignette sur la carte et une galerie sur la page du projet. Le format `{ src, alt, width, height }` est utilisé par Bailo. |
 | `projects[].repo`, `projects[].demo` | Ajoute les boutons sur la page du projet. |
 | `experience`, `certifications` | Fait apparaître ces blocs dans la section Parcours. |
 

@@ -83,18 +83,18 @@ export const about = {
     },
     {
       title: { fr: "Pipelines", en: "Pipelines" },
-      value: "Semgrep, Trivy, Cosign",
+      value: "Gitleaks, Semgrep, Trivy",
       detail: {
-        fr: "Contrôles CI/CD automatisés au hackathon OVH",
-        en: "Automated CI/CD checks at the OVH hackathon",
+        fr: "Contrôles de sécurité bloquants dans le pipeline GitLab de Bailo",
+        en: "Blocking security checks in Bailo's GitLab pipeline",
       },
     },
     {
       title: { fr: "Développement", en: "Development" },
       value: "Java, Python, C, React",
       detail: {
-        fr: "Microservices, compilateur C++, shell POSIX et client temps réel",
-        en: "Microservices, a C++ compiler, a POSIX shell and a real-time client",
+        fr: "L'application Bailo, des microservices, un compilateur C++ et un shell POSIX",
+        en: "The Bailo application, microservices, a C++ compiler and a POSIX shell",
       },
     },
   ],
@@ -127,6 +127,7 @@ export const skills = [
       "OPNsense",
       "Caddy",
       "nftables",
+      "LoRa / MeshCore",
       { fr: "Routeurs en haute disponibilité", en: "High-availability routers" },
       { fr: "Segmentation réseau", en: "Network segmentation" },
       { fr: "PCA / PRA", en: "BCP / DRP" },
@@ -135,23 +136,24 @@ export const skills = [
   {
     label: { fr: "Sécurité et observabilité", en: "Security and observability" },
     items: [
-      "Wazuh (SIEM)", "Prometheus", "Grafana", "Zabbix", "Gitleaks", "Trivy", "Syft", "Semgrep", "Cosign", "OIDC", "Keycloak",
+      "Wazuh (SIEM)", "Prometheus", "Grafana", "Zabbix", "Gitleaks", "Trivy", "Syft", "Semgrep", "Hadolint", "Cosign", "OIDC", "Keycloak",
       { fr: "PKI step-ca", en: "step-ca PKI" },
       "restic",
+      "SOPS / age",
       { fr: "Audit AD", en: "AD audit" },
       { fr: "Référentiels ANSSI", en: "ANSSI guidelines" },
       "HackTheBox",
     ],
   },
   {
-    label: { fr: "Plateformes IA", en: "AI platforms" },
-    items: ["vLLM", "LiteLLM", "Open WebUI", "Qdrant", "Docling", "Langfuse"],
+    label: { fr: "IA et machine learning", en: "AI and machine learning" },
+    items: ["XGBoost", "Random Forest", "RAG", "ChromaDB", "vLLM", "LiteLLM", "Open WebUI", "Qdrant", "Docling", "Langfuse"],
   },
   {
     label: "Backend",
-    items: ["Java", "Quarkus", "Spring Boot", "Hibernate", "Node.js", "Prisma", "FastAPI", "REST / Swagger", "Kafka", "Redis"],
+    items: ["Java", "Quarkus", "Spring Boot", "Hibernate", "Node.js", "Express", "Prisma", "FastAPI", "REST / Swagger", "Kafka", "Redis"],
   },
-  { label: "Frontend", items: ["JavaScript", "TypeScript", "React", "Angular", "Vite", "HTML"] },
+  { label: "Frontend", items: ["JavaScript", "TypeScript", "React", "Angular", "Vite", "HTML", "Flutter"] },
   {
     label: { fr: "Bases de données", en: "Databases" },
     items: ["PostgreSQL", "MySQL", "MongoDB", "Elasticsearch", "Neo4j"],
@@ -163,7 +165,7 @@ export const skills = [
   },
   {
     label: { fr: "Tests et qualité", en: "Testing and quality" },
-    items: ["JUnit", "Jest", "pytest", "googletest", "Postman", "ESLint", "Prettier", { fr: "Méthode Agile", en: "Agile" }],
+    items: ["JUnit", "Jest", "Vitest", "pytest", "googletest", "Postman", "ESLint", "Prettier", { fr: "Méthode Agile", en: "Agile" }],
   },
   { label: { fr: "Systèmes", en: "Operating systems" }, items: ["Linux", "Windows"] },
   {
@@ -178,18 +180,99 @@ export const skills = [
 export const categories = [
   { key: "all", label: { fr: "Tous", en: "All" } },
   { key: "infra", label: { fr: "Infra et sécurité", en: "Infra and security" } },
+  { key: "ia", label: { fr: "IA", en: "AI" } },
   { key: "dev", label: { fr: "Développement", en: "Development" } },
   { key: "sys", label: { fr: "Systèmes", en: "Systems" } },
 ];
 
+// categories : un projet peut figurer dans plusieurs filtres, ex. ["infra", "ia"].
 // Pour chaque projet, À COMPLÉTER si disponible :
 //   images : [{ src: "/projets/tinyx-1.png", alt: "Description" }]
 //            (la première sert de vignette sur la carte)
 //   repo, demo : URL du code et de la démo (boutons masqués si vides)
 export const projects = [
   {
+    slug: "bailo",
+    categories: ["dev"],
+    featured: true,
+    date: { fr: "Depuis mai 2026", en: "Since May 2026" },
+    context: { fr: "Projet personnel", en: "Personal project" },
+    title: { fr: "Bailo : logiciel de gestion locative", en: "Bailo: rental management software" },
+    summary: {
+      fr: "Application en ligne pour les propriétaires en Côte d'Ivoire : avis et relances automatiques, quittances, bail signé en ligne et annonces. Les loyers vont directement au bailleur.",
+      en: "An online application for landlords in Côte d'Ivoire: automatic notices and reminders, rent receipts, online lease signing and listings. Rent goes straight to the landlord.",
+    },
+    stack: ["React", "Node.js", "Express", "PostgreSQL", "Prisma", "Flutter", "Docker", "GitLab CI", "Gitleaks", "Semgrep", "Trivy", "Hadolint", "Stripe", "Vitest"],
+    points: {
+      fr: [
+        "Conception et développement du produit : API Node.js et Express, base PostgreSQL avec Prisma, interface React et application mobile Flutter en préparation.",
+        "Pipeline GitLab dont les contrôles de sécurité bloquent la livraison : Gitleaks, Semgrep, Trivy sur les dépendances et l'image Docker, Hadolint, SBOM CycloneDX et image sans root.",
+        "Sécurité applicative : double authentification TOTP, rotation des jetons de session, journal d'audit chaîné par SHA-256 et contrôle du type réel des fichiers déposés.",
+        "Bail et états des lieux rédigés selon la loi ivoirienne n° 2019-576, avec signature électronique tracée et empreinte SHA-256 du document.",
+        "Recouvrement automatisé des loyers, du rappel au dossier pour l'huissier, et quittances PDF émises dès la confirmation du paiement.",
+        "Abonnements par Wave, Orange Money ou Stripe, avec webhooks authentifiés par HMAC et montant revérifié chez le fournisseur.",
+        "Plus de 820 tests unitaires et d'intégration, près de 90 tests contre un vrai PostgreSQL, et sauvegardes chiffrées avec test de restauration.",
+      ],
+      en: [
+        "Product design and development: Node.js and Express API, PostgreSQL with Prisma, a React interface and a Flutter mobile app in preparation.",
+        "GitLab pipeline whose security checks block delivery: Gitleaks, Semgrep, Trivy on dependencies and the Docker image, Hadolint, a CycloneDX SBOM and a non-root image.",
+        "Application security: TOTP two-factor authentication, session token rotation, a SHA-256 chained audit log and checks on the real type of uploaded files.",
+        "Leases and inventories drafted under Ivorian law no. 2019-576, with traceable electronic signatures and a SHA-256 document fingerprint.",
+        "Automated rent collection, from the first reminder to the bailiff file, and PDF receipts issued as soon as payment is confirmed.",
+        "Subscriptions through Wave, Orange Money or Stripe, with HMAC-authenticated webhooks and amounts rechecked with the provider.",
+        "More than 820 unit and integration tests, nearly 90 tests against a real PostgreSQL database, and encrypted backups with restore testing.",
+      ],
+    },
+    images: [
+      {
+        src: "/projets/bailo/tableau-de-bord-bailleur.webp",
+        alt: { fr: "Tableau de bord du bailleur (données d'exemple)", en: "Landlord dashboard (sample data)" },
+        width: 1400,
+        height: 875,
+      },
+      {
+        src: "/projets/bailo/mobile-bailleur.webp",
+        alt: { fr: "Accueil du bailleur sur l'application mobile (données d'exemple)", en: "Landlord home screen in the mobile app (sample data)" },
+        width: 780,
+        height: 1688,
+      },
+      {
+        src: "/projets/bailo/mobile-locataire.webp",
+        alt: { fr: "Loyer à régler sur l'application mobile (données d'exemple)", en: "Rent due in the mobile app (sample data)" },
+        width: 780,
+        height: 1688,
+      },
+      {
+        src: "/projets/bailo/mobile-bienvenue.webp",
+        alt: { fr: "Écran de bienvenue de l'application mobile", en: "Mobile app welcome screen" },
+        width: 780,
+        height: 1688,
+      },
+      {
+        src: "/projets/bailo/espace-locataire.webp",
+        alt: { fr: "Espace du locataire (données d'exemple)", en: "Tenant area (sample data)" },
+        width: 1400,
+        height: 875,
+      },
+      {
+        src: "/projets/bailo/logements.webp",
+        alt: { fr: "Recherche de logements à louer (données d'exemple)", en: "Search for homes to rent (sample data)" },
+        width: 1400,
+        height: 875,
+      },
+      {
+        src: "/projets/bailo/accueil.jpg",
+        alt: { fr: "Page d'accueil de bailo.space", en: "bailo.space home page" },
+        width: 1440,
+        height: 900,
+      },
+    ],
+    repo: "",
+    demo: "https://bailo.space",
+  },
+  {
     slug: "ia-corp",
-    category: "infra",
+    categories: ["infra", "ia"],
     date: { fr: "Novembre 2026", en: "November 2026" },
     context: "Ansible",
     title: { fr: "IA-Corp : socle d'un assistant IA on-premise", en: "IA-Corp: foundation for an on-premise AI assistant" },
@@ -221,8 +304,72 @@ export const projects = [
     demo: "",
   },
   {
+    slug: "detection-intrusion-ml",
+    categories: ["infra", "ia"],
+    date: { fr: "2026", en: "2026" },
+    context: "Machine learning",
+    title: { fr: "Détection d'intrusion réseau par machine learning", en: "Network intrusion detection with machine learning" },
+    summary: {
+      fr: "Détecteur XGBoost en deux étapes entraîné sur 2,3 millions de flux CICIDS2017 : 99,22 % des attaques détectées et 0,10 % de fausses alertes, avec un protocole d'évaluation sans fuite.",
+      en: "A two-stage XGBoost detector trained on 2.3 million CICIDS2017 flows: 99.22% of attacks detected and 0.10% false alarms, with a leak-free evaluation protocol.",
+    },
+    stack: ["Python", "XGBoost", "Random Forest", "Jupyter", "Parquet", "CICIDS2017"],
+    points: {
+      fr: [
+        "Système en deux étapes à partir de 77 statistiques de flux : un XGBoost binaire détecte l'attaque, puis un XGBoost multi-classe la nomme parmi 13 types.",
+        "Protocole sans fuite : découpage chronologique par type d'attaque, choix du modèle sur la validation et test évalué une seule fois. Un découpage aléatoire donnait 0,998, un score gonflé par des quasi-doublons.",
+        "Résultat sur le test : F1 macro de 0,996, 99,22 % des attaques détectées, 0,10 % de fausses alertes ; 96,2 % des attaques détectées et correctement nommées.",
+        "Douze configurations comparées sur la validation, dont un classifieur constant, une régression logistique et RandomForest, avec une règle de sélection fixée avant de lire les résultats.",
+        "Limites mesurées : une nouvelle session d'une attaque connue chute à 69 % pour GoldenEye et 79 % pour PortScan, et un type jamais vu n'est détecté qu'à 57-63 %. Les données sont du trafic de laboratoire de 2017.",
+        "Analyse des 523 attaques manquées et des 380 fausses alertes, et prototype d'inférence utilisable en ligne de commande et en notebook.",
+      ],
+      en: [
+        "Two-stage system built on 77 flow statistics: a binary XGBoost detects the attack, then a multi-class XGBoost names it among 13 types.",
+        "Leak-free protocol: chronological split per attack type, model selection on validation and a test set evaluated only once. A random split gave 0.998, a score inflated by near-duplicates.",
+        "Test results: macro F1 of 0.996, 99.22% of attacks detected, 0.10% false alarms; 96.2% of attacks both detected and correctly named.",
+        "Twelve configurations compared on validation, including a constant classifier, logistic regression and RandomForest, with a selection rule set before reading the results.",
+        "Measured limits: a new session of a known attack drops to 69% for GoldenEye and 79% for PortScan, and an unseen type is only detected 57-63% of the time. The data is lab traffic from 2017.",
+        "Analysis of the 523 missed attacks and 380 false alarms, and an inference prototype usable from the command line and a notebook.",
+      ],
+    },
+    images: [],
+    repo: "",
+    demo: "",
+  },
+  {
+    slug: "epimesh",
+    categories: ["infra", "sys"],
+    date: { fr: "Soutenance en janvier 2027", en: "Final defense in January 2027" },
+    context: { fr: "Projet de fin d'études, équipe de 2, en cours", en: "Final-year project, team of 2, in progress" },
+    title: { fr: "EpiMesh : réseau radio hors-grid sécurisé", en: "EpiMesh: secure off-grid radio network" },
+    summary: {
+      fr: "Démonstrateur de réseau de communication autonome en LoRa mesh, qui fonctionne sans Internet. Le lien radio et l'application sont validés ; le chiffrement post-quantique est la prochaine grande étape.",
+      en: "A demonstrator for an autonomous LoRa mesh communication network that works without internet. The radio link and application are validated; post-quantum encryption is the next major step.",
+    },
+    stack: ["LoRa", "MeshCore", "Python", "React", "SQLite", "Heltec V3", "Raspberry Pi"],
+    points: {
+      fr: [
+        "Réseau LoRa mesh sous MeshCore, pensé pour le mode hors ligne, avec à terme un nœud solaire sur le toit d'EPITA Rennes.",
+        "Application meshxfer pour les messages et les fichiers : protocole de transfert fiable, démon, API locale sécurisée, historique SQLite et interface web React.",
+        "Premier lien radio et premier transfert réels validés entre deux cartes Heltec V3, avec vérification SHA-256 du fichier à l'arrivée.",
+        "121 tests Python exécutables sans matériel et 24 tests de l'interface.",
+        "Prochaines étapes : chiffrement post-quantique hybride X25519 et ML-KEM, multi-saut, analyse STRIDE, tests SDR et de brouillage en cage de Faraday, autonomie solaire.",
+      ],
+      en: [
+        "LoRa mesh network running MeshCore, designed for offline use, with a planned solar node on the roof of EPITA Rennes.",
+        "meshxfer application for messages and files: reliable transfer protocol, daemon, secured local API, SQLite history and a React web interface.",
+        "First real radio link and file transfer validated between two Heltec V3 boards, with SHA-256 verification on arrival.",
+        "121 Python tests that run without hardware and 24 interface tests.",
+        "Next steps: hybrid post-quantum encryption with X25519 and ML-KEM, multi-hop, STRIDE analysis, SDR and jamming tests in a Faraday cage, solar autonomy.",
+      ],
+    },
+    images: [],
+    repo: "",
+    demo: "",
+  },
+  {
     slug: "epitacorp-iac",
-    category: "infra",
+    categories: ["infra"],
     date: { fr: "Octobre – novembre 2026", en: "October – November 2026" },
     context: "EPITACORP",
     title: { fr: "EpitaCorp : infrastructure as code", en: "EpitaCorp: infrastructure as code" },
@@ -254,8 +401,41 @@ export const projects = [
     demo: "",
   },
   {
+    slug: "homelab",
+    categories: ["infra"],
+    date: { fr: "Depuis octobre 2026", en: "Since October 2026" },
+    context: { fr: "En cours", en: "In progress" },
+    title: { fr: "Homelab : architecture reconstructible par le code", en: "Homelab: an architecture rebuilt from code" },
+    summary: {
+      fr: "Conception d'un homelab segmenté, sans port entrant, à reconstruire entièrement avec une seule commande. L'architecture et les garde-fous sont posés ; le déploiement arrive par étapes.",
+      en: "Design of a segmented homelab with no inbound ports, to be fully rebuilt with a single command. The architecture and safeguards are in place; deployment comes in stages.",
+    },
+    stack: ["Proxmox", "OPNsense", "OpenTofu", "Ansible", "SOPS", "age", "Gitleaks", "pre-commit"],
+    points: {
+      fr: [
+        "Feuille de route en 5 niveaux, chacun validé par un test de passage, d'un serveur vide à une reconstruction complète par make deploy.",
+        "Plan réseau segmenté en VLAN derrière OPNsense : adressage, refus par défaut et matrice de flux documentés.",
+        "Exposition publique prévue uniquement par un tunnel Cloudflare sortant depuis la DMZ, sans aucun port entrant.",
+        "Décisions d'architecture consignées en ADR : Docker Compose avant Kubernetes, dépôt IaC hors de l'infrastructure, secrets SOPS et age.",
+        "Garde-fous déjà actifs sur le dépôt : Gitleaks, détection de clés privées et refus des secrets non chiffrés en pre-commit.",
+        "Prochaines étapes : déployer le premier nœud avec OpenTofu et Ansible, puis le SIEM Wazuh, puis k3s et ArgoCD sur trois nœuds.",
+      ],
+      en: [
+        "A 5-level roadmap, each level validated by a pass/fail test, from an empty server to a full rebuild with make deploy.",
+        "VLAN-segmented network plan behind OPNsense: addressing, default deny and a documented flow matrix.",
+        "Public exposure planned only through an outbound Cloudflare tunnel from the DMZ, with no inbound ports.",
+        "Architecture decisions recorded as ADRs: Docker Compose before Kubernetes, the IaC repository outside the infrastructure, secrets with SOPS and age.",
+        "Safeguards already active on the repository: Gitleaks, private key detection and rejection of unencrypted secrets in pre-commit.",
+        "Next steps: deploy the first node with OpenTofu and Ansible, then the Wazuh SIEM, then k3s and ArgoCD on three nodes.",
+      ],
+    },
+    images: [],
+    repo: "",
+    demo: "",
+  },
+  {
     slug: "architecture-entreprise",
-    category: "infra",
+    categories: ["infra"],
     date: { fr: "Avril 2025 – avril 2026", en: "April 2025 – April 2026" },
     context: "EPITACORP",
     title: { fr: "Architecture d'entreprise sécurisée et résiliente", en: "Secure and resilient enterprise architecture" },
@@ -288,7 +468,7 @@ export const projects = [
   },
   {
     slug: "audit-anssi",
-    category: "infra",
+    categories: ["infra"],
     date: { fr: "Février – juillet 2026", en: "February – July 2026" },
     context: { fr: "Groupe de 4", en: "Team of 4" },
     title: { fr: "Audit d'infrastructure selon les référentiels ANSSI", en: "Infrastructure audit based on ANSSI guidelines" },
@@ -320,7 +500,7 @@ export const projects = [
   },
   {
     slug: "assistant-sre",
-    category: "infra",
+    categories: ["infra", "ia"],
     date: { fr: "2026", en: "2026" },
     context: { fr: "Hackathon OVH", en: "OVH hackathon" },
     title: { fr: "Assistant SRE de réponse à incident", en: "SRE incident response assistant" },
@@ -328,14 +508,16 @@ export const projects = [
       fr: "API FastAPI qui automatise la gestion des incidents, avec pipeline CI/CD sécurisé et métriques opérationnelles dans Grafana.",
       en: "A FastAPI service that automates incident handling, with a secured CI/CD pipeline and operational metrics in Grafana.",
     },
-    stack: ["Python", "FastAPI", "Grafana", "Prometheus", "Gitleaks", "Trivy", "Syft", "Semgrep", "Cosign"],
+    stack: ["Python", "ChromaDB", "FastAPI", "Grafana", "Prometheus", "Gitleaks", "Trivy", "Syft", "Semgrep", "Cosign"],
     points: {
       fr: [
+        "Agent IA d'analyse d'incident, ancré par RAG dans des runbooks (ChromaDB, bge-m3), avec un modèle de garde contre l'injection de prompt.",
         "Conception d'une API REST haute performance avec FastAPI pour automatiser la gestion des incidents.",
         "Sécurité CI/CD : vérifications automatisées dans le pipeline (Gitleaks, Trivy, Syft, Semgrep, Cosign).",
         "Tableau de bord de métriques opérationnelles avec Prometheus et Grafana.",
       ],
       en: [
+        "AI incident analysis agent, grounded through RAG in runbooks (ChromaDB, bge-m3), with a guard model against prompt injection.",
         "Design of a high-performance REST API with FastAPI to automate incident handling.",
         "CI/CD security: automated checks in the pipeline (Gitleaks, Trivy, Syft, Semgrep, Cosign).",
         "Operational metrics dashboard with Prometheus and Grafana.",
@@ -347,7 +529,7 @@ export const projects = [
   },
   {
     slug: "tinyx",
-    category: "dev",
+    categories: ["dev"],
     date: { fr: "Février – juin 2025", en: "February – June 2025" },
     context: { fr: "Groupe de 14", en: "Team of 14" },
     title: { fr: "TinyX : micro-blogging distribué", en: "TinyX: distributed micro-blogging" },
@@ -376,7 +558,7 @@ export const projects = [
   },
   {
     slug: "epibazard",
-    category: "dev",
+    categories: ["dev"],
     date: { fr: "2025", en: "2025" },
     context: "Java",
     title: { fr: "EPIBAZARD : backend d'un jeu de gestion de ressources", en: "EPIBAZARD: backend for a resource management game" },
@@ -403,7 +585,7 @@ export const projects = [
   },
   {
     slug: "eplace",
-    category: "dev",
+    categories: ["dev"],
     date: { fr: "Avril 2025", en: "April 2025" },
     context: "JavaScript",
     title: { fr: "Eplace : client web d'un clone collaboratif de r/place", en: "Eplace: web client for a collaborative r/place clone" },
@@ -430,7 +612,7 @@ export const projects = [
   },
   {
     slug: "tigger",
-    category: "sys",
+    categories: ["sys"],
     date: { fr: "2025", en: "2025" },
     context: "C++",
     title: { fr: "Tigger : compilateur C++", en: "Tigger: C++ compiler" },
@@ -455,7 +637,7 @@ export const projects = [
   },
   {
     slug: "42sh",
-    category: "sys",
+    categories: ["sys"],
     date: { fr: "2024 – 2025", en: "2024 – 2025" },
     context: "C",
     title: { fr: "42sh : shell POSIX", en: "42sh: POSIX shell" },

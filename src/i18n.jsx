@@ -29,7 +29,7 @@ const ui = {
       done: "Réalisations",
       stack: "Technologies",
       repo: "Voir le code",
-      demo: "Voir la démo",
+      demo: "Voir le site",
       notFound: "Ce projet n'existe pas.",
     },
     journey: {
@@ -88,7 +88,7 @@ const ui = {
       done: "What I did",
       stack: "Technologies",
       repo: "View the code",
-      demo: "View the demo",
+      demo: "Visit the site",
       notFound: "This project doesn't exist.",
     },
     journey: {

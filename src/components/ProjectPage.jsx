@@ -4,6 +4,23 @@ import { profile, projects } from "../data.js";
 import { useI18n } from "../i18n.jsx";
 import { ArrowIcon, BackIcon } from "./Icons.jsx";
 
+function Capture({ image, className = "" }) {
+  const { tr } = useI18n();
+  return (
+    <figure className={className}>
+      <img
+        src={image.src}
+        alt={tr(image.alt)}
+        width={image.width}
+        height={image.height}
+        loading="lazy"
+        className="h-auto w-full rounded-2xl border border-line"
+      />
+      <figcaption className="mt-2 text-sm text-muted">{tr(image.alt)}</figcaption>
+    </figure>
+  );
+}
+
 export default function ProjectPage() {
   const { slug } = useParams();
   const { lang, tr, ui } = useI18n();
@@ -33,6 +50,10 @@ export default function ProjectPage() {
     );
   }
 
+  // Les captures de téléphone s'affichent côte à côte, après la première capture large.
+  const portraits = project.images.filter((image) => image.height > image.width);
+  const [firstLandscape, ...otherLandscapes] = project.images.filter((image) => !(image.height > image.width));
+
   return (
     <article className="mx-auto max-w-3xl px-5 py-12 sm:px-8 md:py-16">
       {back}
@@ -58,8 +79,16 @@ export default function ProjectPage() {
         </div>
       )}
 
-      {project.images.map((image) => (
-        <img key={image.src} src={image.src} alt={image.alt} loading="lazy" className="mt-10 w-full rounded-2xl border border-line" />
+      {firstLandscape && <Capture image={firstLandscape} className="mt-10" />}
+      {portraits.length > 0 && (
+        <div className="mt-10 grid grid-cols-2 gap-5 sm:grid-cols-3">
+          {portraits.map((image) => (
+            <Capture key={image.src} image={image} />
+          ))}
+        </div>
+      )}
+      {otherLandscapes.map((image) => (
+        <Capture key={image.src} image={image} className="mt-10" />
       ))}
 
       <h2 className="mt-12 text-2xl font-bold tracking-tight">{ui.projects.done}</h2>

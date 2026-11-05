@@ -9,13 +9,24 @@ function ProjectCard({ project }) {
   const { tr, ui } = useI18n();
   const cover = project.images[0];
   return (
-    <li>
+    <li className={project.featured ? "md:col-span-2" : ""}>
       <Link
         to={`/projets/${project.slug}`}
-        className="group flex h-full flex-col overflow-hidden rounded-3xl border border-line bg-surface/70 transition-colors hover:border-accent"
+        className={`group flex h-full flex-col overflow-hidden rounded-3xl border border-line bg-surface/70 transition-colors hover:border-accent ${
+          project.featured ? "lg:flex-row-reverse" : ""
+        }`}
       >
-        {cover && <img src={cover.src} alt={cover.alt} loading="lazy" className="aspect-video w-full border-b border-line object-cover" />}
-        <div className="flex flex-1 flex-col p-6 sm:p-7">
+        {cover && (
+          <img
+            src={cover.src}
+            alt={tr(cover.alt)}
+            loading="lazy"
+            className={`aspect-video w-full border-b border-line object-cover object-left-top ${
+              project.featured ? "lg:aspect-auto lg:w-1/2 lg:min-w-0 lg:border-b-0 lg:border-l" : ""
+            }`}
+          />
+        )}
+        <div className={`flex flex-1 flex-col p-6 sm:p-7 ${project.featured ? "lg:min-w-0" : ""}`}>
           <p className="text-sm text-muted">
             {tr(project.date)}, {tr(project.context)}
           </p>
@@ -43,7 +54,7 @@ function ProjectCard({ project }) {
 export default function Projects() {
   const { tr, ui } = useI18n();
   const [active, setActive] = useState("all");
-  const visible = projects.filter((project) => active === "all" || project.category === active);
+  const visible = projects.filter((project) => active === "all" || project.categories.includes(active));
 
   return (
     <Section id="projects" title={ui.projects.title} intro={ui.projects.intro}>
