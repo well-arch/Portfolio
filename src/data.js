@@ -307,7 +307,7 @@ export const projects = [
     slug: "detection-intrusion-ml",
     categories: ["infra", "ia"],
     date: { fr: "2026", en: "2026" },
-    context: "Machine learning",
+    context: { fr: "Groupe de 3", en: "Team of 3" },
     title: { fr: "Détection d'intrusion réseau par machine learning", en: "Network intrusion detection with machine learning" },
     summary: {
       fr: "Détecteur XGBoost en deux étapes entraîné sur 2,3 millions de flux CICIDS2017 : 99,22 % des attaques détectées et 0,10 % de fausses alertes, avec un protocole d'évaluation sans fuite.",
@@ -502,7 +502,7 @@ export const projects = [
     slug: "assistant-sre",
     categories: ["infra", "ia"],
     date: { fr: "2026", en: "2026" },
-    context: { fr: "Hackathon OVH", en: "OVH hackathon" },
+    context: { fr: "Hackathon OVH, groupe de 3", en: "OVH hackathon, team of 3" },
     title: { fr: "Assistant SRE de réponse à incident", en: "SRE incident response assistant" },
     summary: {
       fr: "API FastAPI qui automatise la gestion des incidents, avec pipeline CI/CD sécurisé et métriques opérationnelles dans Grafana.",
