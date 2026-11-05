@@ -1,18 +1,50 @@
 <!doctype html>
-<html lang="fr">
+<html lang="fr" data-theme="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#0f766e" />
+    <meta name="theme-color" content="#0b1c21" />
+    <title>Abel TIENE, futur ingénieur DevSecOps</title>
     <meta
       name="description"
-      content="Abel TIENE — Ingénieur DevSecOps, infrastructure & cybersécurité. Étudiant EPITA à la recherche d'un stage de 6 mois à partir de février 2027."
+      content="Abel TIENE, étudiant ingénieur à l'EPITA en majeure DevSecOps. Infrastructure et cybersécurité. Recherche un stage de 6 mois à partir de février 2027."
     />
-    <title>Abel TIENE · Ingénieur DevSecOps</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%230f766e'/><text x='16' y='23' font-size='18' font-weight='700' text-anchor='middle' fill=%27white%27 font-family='Helvetica,Arial'>A</text></svg>" />
+    <meta name="author" content="Abel TIENE" />
+
+    <meta property="og:type" content="profile" />
+    <meta property="og:locale" content="fr_FR" />
+    <meta property="og:title" content="Abel TIENE, futur ingénieur DevSecOps" />
+    <meta
+      property="og:description"
+      content="Infrastructure et cybersécurité. Recherche un stage de 6 mois à partir de février 2027."
+    />
+    <!-- À COMPLÉTER une fois le domaine connu (URL absolues obligatoires) :
+    <link rel="canonical" href="https://mon-domaine.fr/" />
+    <meta property="og:url" content="https://mon-domaine.fr/" />
+    <meta property="og:image" content="https://mon-domaine.fr/og.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    -->
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Abel TIENE",
+        "jobTitle": "Étudiant ingénieur DevSecOps",
+        "email": "mailto:sindou.tiene@epita.fr",
+        "affiliation": { "@type": "CollegeOrUniversity", "name": "EPITA" },
+        "sameAs": ["https://github.com/Well-arch", "https://gitlab.com/well-arch1"]
+      }
+    </script>
+    <!-- Fichier externe et bloquant : applique le thème avant le premier rendu, compatible avec la CSP. -->
+    <script src="/theme.js"></script>
   </head>
   <body>
     <div id="root"></div>
+    <noscript>
+      <p>Abel TIENE, futur ingénieur DevSecOps. Contact : sindou.tiene@epita.fr</p>
+    </noscript>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

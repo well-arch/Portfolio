@@ -1,47 +1,30 @@
-import { Page, Title, SubTitle } from "./Page.jsx";
-import Gotolink from "./Gotolink.jsx";
-import { about, skills, education } from "../data.js";
+import { about } from "../data.js";
+import { useI18n } from "../i18n.jsx";
+import Section from "./Section.jsx";
 
 export default function About() {
+  const { tr, ui } = useI18n();
   return (
-    <Page>
-      <Title>À propos</Title>
-      <p className="text-base leading-loose text-gray-700">{about}</p>
-
-      <article className="my-16">
-        <SubTitle>Mon parcours.</SubTitle>
-        <ul className="timeline">
-          {education.map(([years, title, sub]) => (
-            <li key={years}>
-              <div className="flex flex-wrap items-center justify-between">
-                <span className="font-semibold">{title}</span>
-                <b className="underline">{years}</b>
-              </div>
-              {sub && <p className="text-gray-700">{sub}</p>}
-            </li>
-          ))}
-        </ul>
-      </article>
-
-      <article className="my-16">
-        <SubTitle>Compétences.</SubTitle>
-        <div className="mt-6 grid gap-6 sm:grid-cols-2">
-          {skills.map(([label, items]) => (
-            <div key={label}>
-              <h5 className="mb-2 text-sm font-bold text-teal-700">{label}</h5>
-              <div className="flex flex-wrap gap-1.5">
-                {items.map((it) => (
-                  <span key={it} className="rounded-full border border-teal-200 bg-teal-50 px-2.5 py-1 text-xs font-medium text-teal-800">
-                    {it}
-                  </span>
-                ))}
-              </div>
-            </div>
+    <Section id="about" title={ui.about.title}>
+      <div className="grid gap-12 lg:grid-cols-[1.2fr_1fr]">
+        <div className="max-w-2xl space-y-5 text-lg leading-relaxed text-muted">
+          {tr(about.paragraphs).map((paragraph) => (
+            <p key={paragraph}>{paragraph}</p>
           ))}
         </div>
-      </article>
-
-      <Gotolink content="Voir mes projets." linkpath="/projects" />
-    </Page>
+        <div>
+          <h3 className="font-sans text-[0.95rem] font-semibold text-muted">{ui.about.summary}</h3>
+          <dl className="mt-3 divide-y divide-line border-y border-line">
+            {about.highlights.map((item) => (
+              <div key={item.value} className="py-4">
+                <dt className="text-sm text-muted">{tr(item.title)}</dt>
+                <dd className="mt-0.5 font-semibold">{item.value}</dd>
+                <dd className="mt-0.5 text-[0.95rem] text-muted">{tr(item.detail)}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      </div>
+    </Section>
   );
 }

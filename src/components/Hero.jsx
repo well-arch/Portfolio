@@ -1,58 +1,97 @@
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
-import Gotolink from "./Gotolink.jsx";
-import { profile } from "../data.js";
+import { profile, pipeline } from "../data.js";
+import { useI18n } from "../i18n.jsx";
+import { ArrowIcon, CheckIcon, DownloadIcon, PinIcon } from "./Icons.jsx";
+import SocialLinks from "./SocialLinks.jsx";
 
-const inline =
-  "relative border-none text-base font-extrabold uppercase leading-5 text-black hover:text-teal-700 hover:underline";
+function Portrait() {
+  const { tr, ui } = useI18n();
+  return (
+    <div className="relative mx-auto w-full max-w-sm lg:mr-4 lg:max-w-none">
+      <div className="aspect-[7/8] overflow-hidden rounded-[2rem] border border-line bg-surface">
+        {profile.photo ? (
+          <img src={profile.photo} alt={ui.hero.photoAlt} width="600" height="700" className="h-full w-full object-cover" />
+        ) : (
+          <div className="flex h-full items-center justify-center" aria-hidden="true">
+            <span className="font-display text-[7rem] font-bold tracking-tighter text-line sm:text-[9rem]">{profile.initials}</span>
+          </div>
+        )}
+      </div>
+      <p className="absolute -right-2 top-6 rounded-2xl border border-line bg-bg px-4 py-3 text-sm shadow-lg sm:-right-4">
+        <span className="block text-muted">{ui.hero.available}</span>
+        <span className="block font-semibold text-accent">{tr(profile.availability.from)}</span>
+      </p>
+    </div>
+  );
+}
+
+function Pipeline() {
+  const { tr, ui } = useI18n();
+  return (
+    <div className="mt-12 rounded-3xl border border-line bg-surface/70 p-6 sm:p-8 lg:mt-10">
+      <h2 className="font-sans text-[0.95rem] font-semibold text-muted">{ui.pipeline.title}</h2>
+      <ol className="mt-6 grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 lg:grid-cols-6">
+        {pipeline.map((stage, i) => (
+          <li key={i} style={{ "--step": i }}>
+            <div className="flex items-center">
+              <span className="pipeline-dot flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-accent bg-accent text-on-accent">
+                <CheckIcon />
+              </span>
+              {i < pipeline.length - 1 && <span className="pipeline-line ml-2 hidden h-px flex-1 bg-accent lg:block" />}
+            </div>
+            <h3 className="mt-3 font-sans font-semibold">{tr(stage.name)}</h3>
+            <ul className="mt-1 space-y-0.5 font-mono text-[0.8rem] leading-6 text-muted">
+              {stage.tools.map((tool) => (
+                <li key={tool}>{tool}</li>
+              ))}
+            </ul>
+          </li>
+        ))}
+      </ol>
+    </div>
+  );
+}
 
 export default function Hero() {
+  const { tr, ui } = useI18n();
   return (
-    <section className="flex items-center justify-center">
-      <div className="max-w-4xl">
-        <Link to="/">
-          <motion.h1
-            className="relative mx-0 mb-3 mt-8 text-3xl font-medium uppercase tracking-[9.9px] text-gray-900 sm:text-4xl"
-            initial={{ opacity: 0, y: -20, textShadow: "0px 0px 0px #5eead4" }}
-            animate={{ opacity: 1, y: 0, textShadow: "0px 6px 12px #5eead4" }}
-            transition={{
-              opacity: { duration: 0.6 },
-              y: { duration: 0.6 },
-              textShadow: { duration: 1, delay: 0.6, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" },
-            }}
-          >
-            {profile.name}
-          </motion.h1>
-        </Link>
-        <p className="mb-6 text-lg font-semibold text-teal-700">
-          {profile.title} · {profile.subtitle}
-        </p>
+    <section id="hero" className="mx-auto max-w-6xl px-5 pb-8 pt-12 sm:px-8 lg:pt-10">
+      <div className="grid items-center gap-12 lg:grid-cols-[1.45fr_1fr]">
+        <div>
+          <h1 className="text-6xl font-bold leading-[0.95] tracking-tight sm:text-7xl lg:text-[5.5rem]">
+            {profile.firstName}
+            <br />
+            {profile.lastName}
+          </h1>
+          <p className="mt-5 font-display text-2xl font-semibold tracking-tight sm:text-3xl">{tr(profile.role)}</p>
+          <p className="mt-1 text-xl text-muted">{tr(profile.speciality)}</p>
+          <p className="mt-4 max-w-xl text-lg leading-relaxed text-muted">{tr(profile.pitch)}</p>
+          <p className="mt-5 flex items-center gap-2 text-muted">
+            <PinIcon />
+            {profile.location}
+          </p>
 
-        <p className="mb-1 text-base font-normal leading-loose text-gray-700">
-          Futur ingénieur passionné par le développement logiciel, l&apos;infrastructure et la cybersécurité, je
-          conçois des applications robustes, je les déploie sur des infrastructures sécurisées et résilientes, et
-          je les livre dans des pipelines automatisés.
-        </p>
-        <p className="mb-1 text-base font-normal leading-loose text-gray-700">
-          Étudiant en dernière année d&apos;ingénieur à l&apos;EPITA (majeure DevSecOps), je recherche un stage de
-          6 mois à partir de février 2027, avec possibilité de prolonger en stage de fin d&apos;études.
-        </p>
-        <p className="mb-1 text-base font-normal leading-loose text-gray-700">
-          Découvrez mes derniers{" "}
-          <Link to="/projects" className={inline}>
-            Projets
-          </Link>
-          , de l&apos;architecture d&apos;entreprise sécurisée au développement distribué.
-        </p>
-        <p className="mb-1 text-base font-normal leading-loose text-gray-700">
-          Une opportunité de stage ? Rendez-vous sur la page{" "}
-          <Link to="/contact" className={inline}>
-            Contact
-          </Link>
-          .
-        </p>
-        <Gotolink content="En savoir plus sur moi." linkpath="/about" />
+          <div className="mt-6 flex flex-wrap gap-3">
+            <Link to="/#projects" className="btn-primary">
+              {ui.hero.projects}
+              <ArrowIcon />
+            </Link>
+            <Link to="/#contact" className="btn-secondary">
+              {ui.hero.contact}
+            </Link>
+          </div>
+
+          <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2">
+            <SocialLinks className="-ml-2.5" />
+            <a href={profile.cv} download className="inline-flex items-center gap-2 text-[0.95rem] font-medium text-muted transition-colors hover:text-accent">
+              <DownloadIcon />
+              {ui.hero.cv}
+            </a>
+          </div>
+        </div>
+        <Portrait />
       </div>
+      <Pipeline />
     </section>
   );
 }

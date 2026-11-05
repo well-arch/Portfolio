@@ -1,89 +1,72 @@
 import { useState } from "react";
-import { Page, Title } from "./Page.jsx";
-import Gotolink from "./Gotolink.jsx";
-import { projects, categories } from "../data.js";
+import { Link } from "react-router-dom";
+import { categories, projects } from "../data.js";
+import { useI18n } from "../i18n.jsx";
+import { ArrowIcon } from "./Icons.jsx";
+import Section from "./Section.jsx";
 
-function Card({ p, index }) {
-  const [open, setOpen] = useState(false);
-  const toggle = () => setOpen((v) => !v);
+function ProjectCard({ project }) {
+  const { tr, ui } = useI18n();
+  const cover = project.images[0];
   return (
-    <article className="w-full md:max-w-md lg:max-w-lg">
-      <figure
-        role="button"
-        tabIndex={0}
-        aria-expanded={open}
-        aria-label={`${p.title} : afficher le détail`}
-        onClick={toggle}
-        onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && (e.preventDefault(), toggle())}
-        className="group relative h-96 w-full overflow-hidden rounded-lg bg-gradient-to-br from-teal-700 to-teal-500 text-white shadow-md transition-all duration-300 hover:shadow-xl focus:outline-none focus-visible:ring-4 focus-visible:ring-teal-300"
+    <li>
+      <Link
+        to={`/projets/${project.slug}`}
+        className="group flex h-full flex-col overflow-hidden rounded-3xl border border-line bg-surface/70 transition-colors hover:border-accent"
       >
-        <span aria-hidden className="absolute right-4 top-1 text-7xl font-bold text-white/15">
-          {String(index + 1).padStart(2, "0")}
-        </span>
-
-        <figcaption className="absolute inset-x-0 bottom-0 p-5">
-          <p className="mb-1 text-xs font-medium uppercase tracking-wider text-teal-100">{p.meta}</p>
-          <h3 className="mb-3 text-xl font-bold leading-snug">{p.title}</h3>
-          <div className="flex flex-wrap gap-1.5">
-            {p.stack.map((s) => (
-              <span key={s} className="rounded-full bg-white/20 px-2.5 py-1 text-xs font-medium">
-                {s}
-              </span>
-            ))}
-          </div>
-        </figcaption>
-
-        <div
-          className={`absolute inset-0 overflow-y-auto bg-teal-900 p-5 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100 ${
-            open ? "opacity-100" : "opacity-0"
-          }`}
-        >
-          <h3 className="mb-3 text-base font-bold">{p.title}</h3>
-          <ul className="list-disc space-y-1 pl-5 text-[13px] leading-snug text-teal-50">
-            {p.points.map((pt) => (
-              <li key={pt}>{pt}</li>
+        {cover && <img src={cover.src} alt={cover.alt} loading="lazy" className="aspect-video w-full border-b border-line object-cover" />}
+        <div className="flex flex-1 flex-col p-6 sm:p-7">
+          <p className="text-sm text-muted">
+            {tr(project.date)}, {tr(project.context)}
+          </p>
+          <h3 className="mt-2 text-xl font-bold leading-snug tracking-tight sm:text-2xl">{tr(project.title)}</h3>
+          <p className="mt-3 leading-relaxed text-muted">{tr(project.summary)}</p>
+          <ul className="mb-6 mt-5 flex flex-wrap gap-1.5">
+            {project.stack.map((tech) => (
+              <li key={tr(tech)} className="token">
+                {tr(tech)}
+              </li>
             ))}
           </ul>
+          <span className="mt-auto inline-flex items-center gap-2 font-semibold text-accent">
+            {ui.projects.open}
+            <span className="transition-transform group-hover:translate-x-1">
+              <ArrowIcon />
+            </span>
+          </span>
         </div>
-      </figure>
-    </article>
+      </Link>
+    </li>
   );
 }
 
 export default function Projects() {
+  const { tr, ui } = useI18n();
   const [active, setActive] = useState("all");
-  const list = projects.filter((p) => active === "all" || p.category === active);
+  const visible = projects.filter((project) => active === "all" || project.category === active);
 
   return (
-    <Page wide>
-      <Title>Projets</Title>
-      <div className="my-5">
-        <ul className="flex flex-wrap text-center text-sm font-medium text-gray-500 sm:justify-start lg:justify-center">
-          {categories.map(([key, label]) => (
-            <li key={key} className="mb-2 mr-2">
-              <button
-                type="button"
-                onClick={() => setActive(key)}
-                aria-pressed={active === key}
-                className={`inline-block rounded-lg px-4 py-2 hover:text-gray-900 ${
-                  active === key ? "bg-teal-700 text-white hover:text-white" : ""
-                }`}
-              >
-                {label}
-              </button>
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      <div className="flex flex-wrap items-start gap-5">
-        {list.map((p) => (
-          <Card key={p.title} p={p} index={projects.indexOf(p)} />
+    <Section id="projects" title={ui.projects.title} intro={ui.projects.intro}>
+      <div role="group" aria-label={ui.projects.filter} className="flex flex-wrap gap-2">
+        {categories.map((category) => (
+          <button
+            key={category.key}
+            type="button"
+            aria-pressed={active === category.key}
+            onClick={() => setActive(category.key)}
+            className={`rounded-full border px-4 py-2 text-[0.95rem] font-medium transition-colors ${
+              active === category.key ? "border-accent bg-accent text-on-accent" : "border-line text-muted hover:border-accent hover:text-ink"
+            }`}
+          >
+            {tr(category.label)}
+          </button>
         ))}
       </div>
-      <p className="mt-4 text-xs text-gray-500">Survolez (ou touchez) une carte pour afficher le détail.</p>
-
-      <Gotolink content="Une opportunité de stage ? Contactez-moi." linkpath="/contact" />
-    </Page>
+      <ul className="mt-8 grid gap-5 md:grid-cols-2">
+        {visible.map((project) => (
+          <ProjectCard key={project.slug} project={project} />
+        ))}
+      </ul>
+    </Section>
   );
 }
