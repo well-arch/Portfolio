@@ -115,7 +115,7 @@ const learning = (name) => ({ fr: name, en: name, learning: true });
 export const skills = [
   {
     label: "DevSecOps & Cloud",
-    items: ["Docker", "Docker Compose", "Kubernetes", "Terraform", "Ansible", "GitLab CI / GitHub", learning("AWS"), learning("Rancher")],
+    items: ["Docker", "Docker Compose", "Kubernetes", "Terraform", "OpenTofu", "Ansible", "GitLab CI / GitHub", learning("AWS"), learning("Rancher")],
   },
   {
     label: { fr: "Infrastructure et réseau", en: "Infrastructure and network" },
@@ -124,6 +124,9 @@ export const skills = [
       "Active Directory",
       { fr: "Apache Guacamole (bastion)", en: "Apache Guacamole (bastion)" },
       "OpenVPN",
+      "OPNsense",
+      "Caddy",
+      "nftables",
       { fr: "Routeurs en haute disponibilité", en: "High-availability routers" },
       { fr: "Segmentation réseau", en: "Network segmentation" },
       { fr: "PCA / PRA", en: "BCP / DRP" },
@@ -132,11 +135,17 @@ export const skills = [
   {
     label: { fr: "Sécurité et observabilité", en: "Security and observability" },
     items: [
-      "Wazuh (SIEM)", "Prometheus", "Grafana", "Gitleaks", "Trivy", "Syft", "Semgrep", "Cosign", "OIDC",
+      "Wazuh (SIEM)", "Prometheus", "Grafana", "Zabbix", "Gitleaks", "Trivy", "Syft", "Semgrep", "Cosign", "OIDC", "Keycloak",
+      { fr: "PKI step-ca", en: "step-ca PKI" },
+      "restic",
       { fr: "Audit AD", en: "AD audit" },
       { fr: "Référentiels ANSSI", en: "ANSSI guidelines" },
       "HackTheBox",
     ],
+  },
+  {
+    label: { fr: "Plateformes IA", en: "AI platforms" },
+    items: ["vLLM", "LiteLLM", "Open WebUI", "Qdrant", "Docling", "Langfuse"],
   },
   {
     label: "Backend",
@@ -178,6 +187,72 @@ export const categories = [
 //            (la première sert de vignette sur la carte)
 //   repo, demo : URL du code et de la démo (boutons masqués si vides)
 export const projects = [
+  {
+    slug: "ia-corp",
+    category: "infra",
+    date: { fr: "Novembre 2026", en: "November 2026" },
+    context: "Ansible",
+    title: { fr: "IA-Corp : socle d'un assistant IA on-premise", en: "IA-Corp: foundation for an on-premise AI assistant" },
+    summary: {
+      fr: "Infrastructure as code d'un assistant hébergé dans l'entreprise, réservé aux employés authentifiés et sans aucun flux vers Internet.",
+      en: "Infrastructure as code for an assistant hosted inside the company, limited to authenticated employees, with no traffic to the internet.",
+    },
+    stack: ["Ansible", "Docker Compose", "Keycloak", "Open WebUI", "LiteLLM", "vLLM", "Qdrant", "Docling", "Langfuse", "Prometheus", "Grafana", "Caddy", "nftables", "restic", "Gitleaks"],
+    points: {
+      fr: [
+        "Déploiement par Ansible et Docker Compose sur deux types de serveurs : un serveur central et un serveur GPU hors ligne.",
+        "Authentification par Keycloak, fédéré en lecture seule à Active Directory, avec OTP obligatoire.",
+        "Pare-feu nftables, conteneurs sans accès sortant, TLS par CA interne et poids des modèles figés par révision et SHA-256.",
+        "Observabilité avec Langfuse, Prometheus et Grafana sans journaliser le contenu des conversations ; sauvegarde restic chiffrée chaque nuit.",
+        "Contrôles avant modification : Gitleaks en pre-commit, lint Ansible et validation de Compose, nftables, Caddy et Prometheus.",
+        "État actuel : SSO, MFA, TLS et passerelle LiteLLM testés dans des conteneurs temporaires, avec un vLLM simulé. Pas encore de déploiement sur un serveur réel.",
+      ],
+      en: [
+        "Deployment with Ansible and Docker Compose on two server types: a central server and an offline GPU server.",
+        "Authentication through Keycloak, federated read-only with Active Directory, with mandatory OTP.",
+        "nftables firewall, containers without outbound access, TLS from an internal CA, and model weights pinned by revision and SHA-256.",
+        "Observability with Langfuse, Prometheus and Grafana without logging conversation content; encrypted nightly restic backups.",
+        "Checks before any change: Gitleaks in pre-commit, Ansible lint, and validation of Compose, nftables, Caddy and Prometheus configs.",
+        "Current status: SSO, MFA, TLS and the LiteLLM gateway tested in temporary containers with a simulated vLLM. Not yet deployed on a real server.",
+      ],
+    },
+    images: [],
+    repo: "https://github.com/well-arch/IA-Corp",
+    demo: "",
+  },
+  {
+    slug: "epitacorp-iac",
+    category: "infra",
+    date: { fr: "Octobre – novembre 2026", en: "October – November 2026" },
+    context: "EPITACORP",
+    title: { fr: "EpitaCorp : infrastructure as code", en: "EpitaCorp: infrastructure as code" },
+    summary: {
+      fr: "Infrastructure d'une PME fictive de 33 employés décrite sous forme de code : 13 VM sous Proxmox, Active Directory, bastion, PKI interne et pipeline GitLab CI.",
+      en: "The infrastructure of a fictional 33-employee company described as code: 13 Proxmox VMs, Active Directory, a bastion, an internal PKI and a GitLab CI pipeline.",
+    },
+    stack: ["OpenTofu", "Ansible", "PowerShell", "GitLab CI", "Proxmox", "OPNsense", "Active Directory", "Guacamole", "step-ca", "Zabbix", "Wazuh"],
+    points: {
+      fr: [
+        "Adoption de 13 VM existantes dans OpenTofu via l'API Proxmox, sans rien installer sur l'hyperviseur.",
+        "Pipeline GitLab CI lint, plan, déploiement manuel et vérification, avec tofu validate, ansible-lint, PSScriptAnalyzer et scan de secrets.",
+        "Active Directory configuré par des scripts PowerShell idempotents : OU, groupes AGDLP, délégation, stratégies de mot de passe et GPO de durcissement.",
+        "Arrivée d'un employé pilotée par une merge request sur un référentiel YAML : compte, groupes, dossier personnel et accès au bastion.",
+        "PKI interne step-ca et LDAPS sur le contrôleur de domaine ; bastion Guacamole authentifié par l'AD avec enregistrement des sessions d'administration.",
+        "Réseau segmenté en VLAN derrière OPNsense et documentation d'exploitation en 11 guides.",
+      ],
+      en: [
+        "Brought 13 existing VMs under OpenTofu through the Proxmox API, with nothing installed on the hypervisor.",
+        "GitLab CI pipeline with lint, plan, manual deploy and verify stages, using tofu validate, ansible-lint, PSScriptAnalyzer and secret scanning.",
+        "Active Directory configured by idempotent PowerShell scripts: OUs, AGDLP groups, delegation, password policies and hardening GPOs.",
+        "Employee onboarding driven by a merge request on a YAML reference file: account, groups, home folder and bastion access.",
+        "Internal step-ca PKI and LDAPS on the domain controller; Guacamole bastion authenticated through AD, with admin sessions recorded.",
+        "VLAN-segmented network behind OPNsense, and operations documentation in 11 guides.",
+      ],
+    },
+    images: [],
+    repo: "https://gitlab.com/well-arch1/epitacorp",
+    demo: "",
+  },
   {
     slug: "architecture-entreprise",
     category: "infra",

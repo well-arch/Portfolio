@@ -22,7 +22,7 @@ const ui = {
     skills: { title: "Compétences", intro: "Les outils et langages que j'ai utilisés en projet.", learning: "en cours" },
     projects: {
       title: "Projets",
-      intro: "Projets d'école et de hackathon, de l'infrastructure au code système.",
+      intro: "De l'infrastructure au code système, ce que j'ai conçu et livré.",
       filter: "Filtrer les projets",
       open: "Voir le projet",
       back: "Retour aux projets",
@@ -81,7 +81,7 @@ const ui = {
     skills: { title: "Skills", intro: "The tools and languages I've used on projects.", learning: "learning" },
     projects: {
       title: "Projects",
-      intro: "School and hackathon projects, from infrastructure to systems code.",
+      intro: "From infrastructure to systems code, what I've designed and delivered.",
       filter: "Filter projects",
       open: "View project",
       back: "Back to projects",
